@@ -1,0 +1,19 @@
+docker run -it \
+ -e POSTGRES_USER="root" \
+ -e POSTGRES_PASSWORD="root1" \
+ -e POSTGRES_DB="ny_taxi" \
+ -v c:/Users/Marutha/Desktop/dataeng_zoomcamp_2024/week1/ny_taxi_postgres_data:/var/lib/postgresql/data \
+ -p 5435:5432 \
+ postgres:13
+
+pip install psycopg2
+pip install pgcli
+pip install psycopg-binary
+pgcli -h localhost -p 5435-u root -d ny_taxi
+
+https://github.com/sameersbn/docker-postgresql/issues/112
+* Option 1: Stop the PostgreSQL service on Windows
+* Option 2 (using WSL): Completely uninstall Protgres 12 from Windows and install postgresql-client on WSL (`sudo apt install postgresql-client-common postgresql-client libpq-dev`)
+* Option 3: Change the port of the docker container
+
+
