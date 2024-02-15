@@ -1,0 +1,115 @@
+SELECT 
+COUNT(*)
+FROM 
+green_taxi_data 
+where substring(cAST(lpep_pickup_datetime AS CHAR(26)),1,10) = '2019-09-18' 
+AND substring(cAST(lpep_dropoff_datetime AS CHAR(26)),1,10) = '2019-09-18'
+
+====
+SELECT 
+*
+FROM 
+green_taxi_data 
+WHERE trip_distance = (select max(trip_distance) from green_taxi_data)
+=======
+
+SELECT 
+ "PUBorough"
+ , sum(total_amount)
+ FROM 
+(
+SELECT 
+Z1."index"
+,Z1."VendorID"
+,Z1."lpep_pickup_datetime"
+,Z1."lpep_dropoff_datetime"
+,Z1."store_and_fwd_flag"
+,Z1."RatecodeID"
+
+,Z1."PULocationID"
+--,Z2."index" as "PUIndex"
+,Z2."Borough" as "PUBorough"
+,Z2."Zone" as "PUZone"
+,Z2."service_zone" as "PUservice_zone"
+
+,Z1."DOLocationID"
+--,Z3."index" as "DOIndex"
+,Z3."Borough" as "DOBorough"
+,Z3."Zone" as "DOZone"
+,Z3."service_zone" as "DOservice_zone"
+
+,Z1."passenger_count"
+,Z1."trip_distance"
+,Z1."fare_amount"
+,Z1."extra"
+,Z1."mta_tax"
+,Z1."tip_amount"
+,Z1."tolls_amount"
+,Z1."ehail_fee"
+,Z1."improvement_surcharge"
+,Z1."total_amount"
+,Z1."payment_type"
+,Z1."trip_type"
+,Z1."congestion_surcharge"
+FROM 
+green_taxi_data as z1
+left join taxi_zone_lookup as z2 
+on z1."PULocationID" = z2."LocationID"
+left join taxi_zone_lookup as z3
+on z1."PULocationID" = z3."LocationID"
+where substring(cAST(lpep_pickup_datetime AS CHAR(26)),1,10) = '2019-09-18' 
+) y1
+where "PUBorough" <> 'Unknown'
+group by "PUBorough"
+
+========
+ SELECT 
+*
+ FROM 
+(
+SELECT 
+Z1."index"
+,Z1."VendorID"
+,Z1."lpep_pickup_datetime"
+,Z1."lpep_dropoff_datetime"
+,Z1."store_and_fwd_flag"
+,Z1."RatecodeID"
+
+,Z1."PULocationID"
+--,Z2."index" as "PUIndex"
+,Z2."Borough" as "PUBorough"
+,Z2."Zone" as "PUZone"
+,Z2."service_zone" as "PUservice_zone"
+
+,Z1."DOLocationID"
+--,Z3."index" as "DOIndex"
+,Z3."Borough" as "DOBorough"
+,Z3."Zone" as "DOZone"
+,Z3."service_zone" as "DOservice_zone"
+
+,Z1."passenger_count"
+,Z1."trip_distance"
+,Z1."fare_amount"
+,Z1."extra"
+,Z1."mta_tax"
+,Z1."tip_amount"
+,Z1."tolls_amount"
+,Z1."ehail_fee"
+,Z1."improvement_surcharge"
+,Z1."total_amount"
+,Z1."payment_type"
+,Z1."trip_type"
+,Z1."congestion_surcharge"
+FROM 
+green_taxi_data as z1
+left join taxi_zone_lookup as z2 
+on z1."PULocationID" = z2."LocationID"
+left join taxi_zone_lookup as z3
+on z1."DOLocationID" = z3."LocationID"
+where substring(cAST(lpep_pickup_datetime AS CHAR(26)),1,10) BETWEEN '2019-09-01' AND '2019-09-31' 
+) y1
+where "PUZone" = 'Astoria'
+--group by "DOZone"
+order by tip_amount desc
+limit 5
+====================

@@ -1,0 +1,26 @@
+/*
+CREATE EXTERNAL TABLE `unified-ruler-411201.dezmcmp2024_wk3_dsid.green_2022_tbl`
+  OPTIONS (
+    format ="Parquet",
+    uris = ['gs://dezoomcamp2024_hmewrk3_bkt/*']
+    );
+
+*/
+
+  --select count(*) from `dezmcmp2024_wk3_dsid.green_2022_tbl`; --840402
+
+-- select count(*) from `dezmcmp2024_wk3_dsid.green_2022_tbl` where fare_amount = 0; --1622
+
+--select  * from   dezmcmp2024_wk3_dsid.__TABLES__ where    table_id = 'green_2022_tbl'
+
+--select count(*) from `dezmcmp2024_wk3_dsid.green_2022_tbl`;
+
+
+--create table dezmcmp2024_wk3_dsid.green_2022_tbl2
+--AS SELECT * FROM dezmcmp2024_wk3_dsid.green_2022_tbl;
+
+--select  * from   dezmcmp2024_wk3_dsid.__TABLES__ ;
+
+
+select distinct  PULocationID from dezmcmp2024_wk3_dsid.green_2022_tbl2
+where  lpep_pickup_datetime between '2022-01-06' and '2022-06-30'  
